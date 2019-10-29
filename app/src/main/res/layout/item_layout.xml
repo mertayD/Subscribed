@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:orientation="vertical"
+    android:background="@drawable/rounded_edge_layout"
+    android:layout_margin="10dp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="0dp"
+            android:scaleType="fitCenter"
+            />
+
+        <TextView
+            android:id="@+id/item_name_tv"
+            style="@style/Base.Animation.AppCompat.DropDownUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_toRightOf="@+id/item_image"
+            android:layout_marginTop="7dp"
+            android:lines="1"
+            android:text="Amazon"
+            android:textColor="#FFFFFF"
+            android:textSize="6pt" />
+        <TextView
+            android:id="@+id/days_remained_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/item_name_tv"
+            android:layout_toRightOf="@id/item_image"
+            android:layout_marginLeft="16dp"
+            android:text="Renews in 999 days"
+            />
+
+    </RelativeLayout>
+
+</LinearLayout>
