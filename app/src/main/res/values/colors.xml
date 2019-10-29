@@ -3,4 +3,13 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="customGray">#989898</color>
+    <color name="alphaChannel">#00000000</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGreen">#6DC49E</color>
+    <color name="colorPollen">#FFD200</color>
+    <color name="colorDarkBlue">#2C528C</color>
+    <color name="coloLightBlue">#51A0D5</color>
+
+
 </resources>
