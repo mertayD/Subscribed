@@ -32,7 +32,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
         private TextView item_name_tv;
         private TextView days_remained_tv;
-        //private ImageView item_image;
+        private ImageView item_image;
 
 
         public ItemViewHolder(@NonNull View itemView) {
@@ -41,7 +41,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
             item_name_tv = mView.findViewById(R.id.item_name_tv);
             days_remained_tv = mView.findViewById(R.id.days_remained_tv);
-            //item_image = mView.findViewById(R.id.item_image);
+            item_image = mView.findViewById(R.id.item_image);
         }
     }
 
@@ -57,6 +57,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
         holder.item_name_tv.setText(list.get(position).getName());
         String text = "" + list.get(position).getCycle_time();
         holder.days_remained_tv.setText(text);
+        holder.item_image.setImageResource(R.drawable.netflix_icon);
     }
 
     @Override

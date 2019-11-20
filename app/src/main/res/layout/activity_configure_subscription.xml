@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="@color/colorDarkBlue"
+tools:context=".ConfigureSubscription"
+    android:id="@+id/configure_sub_layout"
+    >
+
+<ImageButton
+    android:id="@+id/add_icon_ibutton"
+    android:layout_width="50dp"
+    android:layout_height="50dp"
+    android:layout_marginTop="16dp"
+    android:background="#00000000"
+    android:scaleType="fitCenter"
+    android:src="@drawable/add_icon"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.501"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<EditText
+    android:id="@+id/price_tag_et"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="16dp"
+    android:text="$0.00"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.504"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/add_icon_ibutton" />
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:orientation="vertical"
+    android:layout_marginTop="10dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/price_tag_et">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Name"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <EditText
+            android:id="@+id/name_enter_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="'Netflix'"
+            android:textAlignment="textEnd"
+            android:textColor="#989898" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/horizontal_divider_bars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <EditText
+            android:id="@+id/enter_description_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="'Entertainment'"
+            android:textAlignment="textEnd"
+            android:textColor="#989898" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/horizontal_divider_bars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <EditText
+            android:id="@+id/enter_color_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="'1 = Blue'"
+            android:textAlignment="textEnd"
+            android:textColor="#989898" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/horizontal_divider_bars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="First Bill"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <EditText
+            android:id="@+id/enter_firstbill_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="'29 Oct 2019'"
+            android:textAlignment="textEnd"
+            android:textColor="#989898" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/horizontal_divider_bars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cycle"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <TextView
+            android:id="@+id/enter_cycle_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Every 2 Month(s)"
+            android:textAlignment="textEnd"
+            android:textColor="#989898" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/horizontal_divider_bars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Duration"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <EditText
+            android:id="@+id/enter_duration_et"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="'Forever'"
+            android:textAlignment="textEnd"
+            android:textColor="#989898" />
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:src="@drawable/horizontal_divider_bars"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="3dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Remind Me!"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            />
+
+        <Switch
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/remind_me_switch"/>
+
+    </LinearLayout>
+</LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>
