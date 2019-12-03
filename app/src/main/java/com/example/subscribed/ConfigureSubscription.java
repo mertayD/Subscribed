@@ -16,16 +16,21 @@ import android.widget.NumberPicker;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.time.Month;
+
 public class ConfigureSubscription extends AppCompatActivity {
 
     //Pop Up screen elements
     EditText popup_name_et;
     EditText popup_desc_et;
-    EditText popup_color_et;
+    TextView popup_color_et;
     TextView popup_cycle_tv;
-    View layout_this;
-
+    TextView popup_first_bill;
     String[] day_identifier_values;
+    String[] months;
+    String[] months_to_write;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,14 +39,24 @@ public class ConfigureSubscription extends AppCompatActivity {
         popup_desc_et = findViewById(R.id.enter_description_et);
         popup_desc_et.addTextChangedListener(new ConfigureSubscription.MyTextWatcher(1));
         popup_name_et.addTextChangedListener(new ConfigureSubscription.MyTextWatcher(0));
-        popup_cycle_tv = findViewById(R.id.enter_cycle_et);
-        layout_this = findViewById(R.id.configure_sub_layout);
+        popup_cycle_tv = findViewById(R.id.enter_cycle_tv);
+        popup_first_bill = findViewById(R.id.enter_firstbill_tv);
+
+        popup_first_bill.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonClickShowPopupWindowFirstBill();
+            }
+        });
         popup_cycle_tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onButtonShowPopupWindowClick();
+                onButtonClickShowPopupWindowCycle();
             }
         });
+        day_identifier_values = new String[] {"Day(s)", "Week(s)", "Month(s)", "Year(s)"};
+        months = new String[] {"Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+        months_to_write = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
     }
 
     public class MyTextWatcher implements TextWatcher {
@@ -69,7 +84,8 @@ public class ConfigureSubscription extends AppCompatActivity {
 
         }
     }
-    public void onButtonShowPopupWindowClick() {
+
+    public void onButtonClickShowPopupWindowCycle() {
 
         // inflate the layout of the popup window
         LayoutInflater inflater = (LayoutInflater)
@@ -80,15 +96,14 @@ public class ConfigureSubscription extends AppCompatActivity {
         final NumberPicker number_picker = popupView.findViewById(R.id.number_picker_cycle_np);
         number_picker.setMinValue(1);
         number_picker.setMaxValue(31);
-
-        day_identifier_values = new String[] {"Day(s)", "Week(s)", "Month(s)", "Year(s)"};
+        number_picker.setValue(getCycleInt());
 
 
         final NumberPicker identifier_picker = popupView.findViewById(R.id.identifier_picker_cycle_np);
         identifier_picker.setMinValue(0);
         identifier_picker.setMaxValue(3);
         identifier_picker.setDisplayedValues(day_identifier_values);
-
+        identifier_picker.setValue(getCycleIdentifier());
 
         number_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -136,13 +151,11 @@ public class ConfigureSubscription extends AppCompatActivity {
 
             if(cycle_tv_text.charAt(7) ==  ' ')
             {
-                Log.e("CYCLE 10 ", cycle_tv_text.substring(8));
 
                 cycl_substr = "Every " + value + " " + cycle_tv_text.substring(8);
             }
             else
             {
-                Log.e("CYCLE 9 ", cycle_tv_text.substring(9));
 
                 cycl_substr = "Every " + value + " " + cycle_tv_text.substring(9);
 
@@ -168,6 +181,36 @@ public class ConfigureSubscription extends AppCompatActivity {
 
     }
 
+    void setFirstBillText(int switched_identifier, int value)
+    {
+        String first_bill_tv_text = popup_first_bill.getText().toString();
+        String first_bill_substr = "";
+        String holder;
+        //Day Changed
+        if(switched_identifier == 0)
+        {
+            if(getFirstBillDay() > 9)
+            {
+                first_bill_substr = first_bill_tv_text.substring(3);
+            }
+            else{
+                first_bill_substr = first_bill_tv_text.substring(2);
+            }
+
+            popup_first_bill.setText(value + " " + first_bill_substr);
+        }
+        else if(switched_identifier == 1)
+        {
+            first_bill_substr = "" + getFirstBillDay() + " " + months_to_write[value] + " " + getFirstBillYear();
+            popup_first_bill.setText(first_bill_substr);
+        }
+        else if( switched_identifier == 2)
+        {
+            first_bill_substr = "" + getFirstBillDay() + " " + months_to_write[getFirstBillMonth()] + " " + value;
+            popup_first_bill.setText(first_bill_substr);
+        }
+    }
+
     int getCycleInt()
     {
         String cycle_tv_text = popup_cycle_tv.getText().toString();
@@ -182,4 +225,246 @@ public class ConfigureSubscription extends AppCompatActivity {
         }
         return Integer.parseInt(to_return);
     }
+
+    int getCycleIdentifier(){
+
+        String cycle_tv_text = popup_cycle_tv.getText().toString();
+        int to_return = 0;
+        String to_return_string = "";
+        if(cycle_tv_text.charAt(7) ==  ' ')
+        {
+            to_return_string = cycle_tv_text.substring(8);
+        }
+        else
+        {
+            to_return_string = cycle_tv_text.substring(9);
+        }
+        Log.e("IDENTIFIER", to_return_string);
+        if(to_return_string.equals("Day(s)"))
+        {
+            to_return = 0;
+        }
+        else if(to_return_string.equals("Week(s)"))
+        {
+            to_return = 1;
+        }
+        else if(to_return_string.equals("Month(s)"))
+        {
+            to_return = 2;
+        }
+        else
+        {
+            to_return = 3;
+        }
+        return to_return;
+    }
+
+    int getFirstBillDay()
+    {
+        String first_bill_tv_text = popup_first_bill.getText().toString();
+        int to_return = 0;
+        String holder = "";
+        if(first_bill_tv_text.charAt(1) == ' ')
+        {
+            holder = "" + first_bill_tv_text.charAt(0);
+            to_return = Integer.parseInt(holder);
+
+        }
+        else{
+            holder = first_bill_tv_text.substring(0,2);
+            to_return = Integer.parseInt(holder);
+        }
+        return to_return;
+    }
+
+    int getFirstBillMonth()
+    {
+        String first_bill_tv_text = popup_first_bill.getText().toString();
+        int to_return = 0;
+        String holder = "";
+        int day_digit = getFirstBillDay();
+        int index = 0;
+        if(day_digit > 9)
+        {
+            index = 3;
+        }
+        else
+        {
+            index = 2;
+        }
+
+        while( first_bill_tv_text.charAt(index) != ' ' )
+        {
+            Log.e("CHAR ", holder);
+            holder += first_bill_tv_text.charAt(index);
+            index++;
+        }
+
+
+        switch (holder)
+        {
+            case "Jan":
+                to_return = 0;
+                break;
+            case "Feb":
+                to_return = 1;
+                break;
+            case "Mar":
+                to_return = 2;
+                break;
+            case "Apr":
+                to_return = 3;
+                break;
+            case "May":
+                to_return = 4;
+                break;
+            case "June":
+                to_return = 5;
+                break;
+            case "July":
+                to_return = 6;
+                break;
+            case "Aug":
+                to_return = 7;
+                break;
+            case "Sept":
+                to_return = 8;
+                break;
+            case "Oct":
+                to_return = 9;
+                break;
+            case "Nov":
+                to_return = 10;
+                break;
+            case "Dec":
+                to_return = 11;
+                break;
+             default:
+                 to_return = 0;
+                 break;
+        }
+
+
+        return to_return;
+    }
+
+    int getFirstBillYear()
+    {
+        String first_bill_tv_text = popup_first_bill.getText().toString();
+        int to_return = 0;
+        String holder = "";
+        int day_digit = getFirstBillDay();
+        int index = 0;
+        if(day_digit > 9)
+        {
+            index = 3;
+        }
+        else
+        {
+            index = 2;
+        }
+
+        while( !isNumeric(first_bill_tv_text.charAt(index)) )
+        {
+            index++;
+        }
+        int i = 0;
+        while (i < 4)
+        {
+            holder += first_bill_tv_text.charAt(index);
+            i++;
+            index++;
+        }
+
+        to_return = Integer.parseInt(holder);
+        return to_return;
+    }
+
+
+    public void onButtonClickShowPopupWindowFirstBill() {
+
+        // inflate the layout of the popup window
+        LayoutInflater inflater = (LayoutInflater)
+                getSystemService(LAYOUT_INFLATER_SERVICE);
+        final View popupView = inflater.inflate(R.layout.day_picker, null);
+
+        //Initialize elements
+        final NumberPicker month_picker = popupView.findViewById(R.id.month_picker_np);
+        month_picker.setMinValue(0);
+        month_picker.setMaxValue(11);
+        month_picker.setDisplayedValues(months);
+        month_picker.setValue(getFirstBillMonth());
+        //month_picker.setValue(getCycleInt());
+        //write a function to start the picker from the value that is already written
+
+
+        final NumberPicker day_picker = popupView.findViewById(R.id.day_picker_np);
+        day_picker.setMinValue(1);
+        day_picker.setMaxValue(31);
+        day_picker.setValue(getFirstBillDay());
+        //identifier_picker.setValue(getCycleIdentifier());
+        //Write a function to get days from tv
+
+        final NumberPicker year_picker = popupView.findViewById(R.id.year_picker_np);
+        year_picker.setMinValue(2000);
+        year_picker.setMaxValue(2020);
+        year_picker.setValue(getFirstBillYear());
+        year_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                int value = year_picker.getValue();
+                setFirstBillText(2, value);
+
+            }
+        });
+
+
+        month_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                int value = month_picker.getValue();
+                setFirstBillText(1, value);
+            }
+        });
+
+        day_picker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                int value = day_picker.getValue();
+                setFirstBillText(0, value);
+
+            }
+        });
+
+        // create the popup window
+        int width = LinearLayout.LayoutParams.MATCH_PARENT;
+        int height = LinearLayout.LayoutParams.WRAP_CONTENT;
+        boolean focusable = true; // lets taps outside the popup also dismiss it
+        final PopupWindow popupWindow = new PopupWindow(popupView, width, height, focusable);
+
+        // show the popup window
+        // which view you pass in doesn't matter, it is only used for the window tolken
+        popupWindow.showAtLocation(popup_cycle_tv, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL, 0, 200);
+
+        // dismiss the popup window when touched
+        popupView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                popupWindow.dismiss();
+                return true;
+            }
+        });
+    }
+
+
+    boolean isNumeric(char ch){
+        char numeric[] = new char[] {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+        for(int i = 0; i < numeric.length; i++)
+        {
+            if(ch == numeric[i])
+                return true;
+        }
+        return false;
+    }
+
 }
