@@ -10,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import org.w3c.dom.Text;
 
 import java.time.Month;
+import java.util.Date;
 
 public class ConfigureSubscription extends AppCompatActivity {
 
@@ -31,6 +33,8 @@ public class ConfigureSubscription extends AppCompatActivity {
     String[] day_identifier_values;
     String[] months;
     String[] months_to_write;
+    Button done_button;
+    Subscription to_add;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +45,21 @@ public class ConfigureSubscription extends AppCompatActivity {
         popup_name_et.addTextChangedListener(new ConfigureSubscription.MyTextWatcher(0));
         popup_cycle_tv = findViewById(R.id.enter_cycle_tv);
         popup_first_bill = findViewById(R.id.enter_firstbill_tv);
+        done_button = findViewById(R.id.done_button);
+        to_add = new Subscription();
+        done_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                to_add.setName(getName());
+                to_add.setDescription(getDescribtion());
+                to_add.setColor(getColor());
+                to_add.setCycle_identified( getCycleIdentifier());
+                to_add.setSubscriptionCeated(getFirstBillDate());
+                // add a little more to make sure everything is passed.
+                // pass the subscribtion
+                finish();
+            }
+        });
 
         popup_first_bill.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,6 +73,7 @@ public class ConfigureSubscription extends AppCompatActivity {
                 onButtonClickShowPopupWindowCycle();
             }
         });
+
         day_identifier_values = new String[] {"Day(s)", "Week(s)", "Month(s)", "Year(s)"};
         months = new String[] {"Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         months_to_write = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
@@ -347,6 +367,34 @@ public class ConfigureSubscription extends AppCompatActivity {
 
         return to_return;
     }
+
+    String getName()
+    {
+        String name = popup_name_et.getText().toString();
+        return name;
+    }
+
+    String getDescribtion(){
+        String desc = popup_desc_et.getText().toString();
+        return desc;
+    }
+
+    int getColor(){
+        //JUST FOR NOW IT RETURNS 0
+
+        return 0;
+    }
+
+    Date getFirstBillDate(){
+
+        int day = getFirstBillDay();
+        int month = getFirstBillMonth();
+        int year = getFirstBillYear();
+
+        Date created = new Date(year, month, day);
+        return created;
+    }
+
 
     int getFirstBillYear()
     {

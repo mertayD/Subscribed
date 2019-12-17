@@ -18,6 +18,19 @@ public class Subscription {
     private int color;
     private boolean notify_user;
 
+    public Subscription(){
+        this.name = "";
+        this.description = "";
+        this.subscriptionCeated = new Date();
+        this.duration_time = 0;
+        this.duration_identified = durationIdentifier.DAY;
+        this.cycle_time = 0;
+        this.cycle_identified = durationIdentifier.DAY;
+        this.image_identifier = 0;
+        this.color = 0;
+        this.notify_user = false;
+
+    }
     public Subscription(String name,
                         String description,
                         Date subscriptionCeated,
@@ -94,6 +107,20 @@ public class Subscription {
 
     public void setCycle_identified(durationIdentifier cycle_identified) {
         this.cycle_identified = cycle_identified;
+    }
+    public void setCycle_identified(int cycle_identified) {
+        switch (cycle_identified){
+            case 0:
+                this.cycle_identified = durationIdentifier.DAY;
+                break;
+            case 1:
+                this.cycle_identified = durationIdentifier.MONTH;
+                break;
+            case 2:
+                this.cycle_identified = durationIdentifier.YEAR;
+                break;
+
+        }
     }
 
     public int getImage_identifier() {
