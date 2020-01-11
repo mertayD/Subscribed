@@ -1,8 +1,13 @@
 package com.example.subscribed;
 
-import java.util.Date;
+import android.util.Log;
 
-public class Subscription {
+import java.util.Date;
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+
+public class Subscription implements Serializable {
     private String name;
     private String description;
     private Date subscriptionCeated;
@@ -145,5 +150,9 @@ public class Subscription {
 
     public void setNotify_user(boolean notify_user) {
         this.notify_user = notify_user;
+    }
+
+    public void to_string(){
+        Log.e("SUBSCRIPTION", "NAME = "+ name);
     }
 }

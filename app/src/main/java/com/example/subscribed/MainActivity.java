@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private ItemAdapter itemAdapter;
     private ImageButton addSubscription;
     private TextView editOption;
-    List<Subscription> subscriptions;
+    static List<Subscription> subscriptions = new ArrayList<Subscription>();;
 
 
     Date popup_firstbill_date;
@@ -52,13 +52,41 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        recyclerView = findViewById(R.id.main_recycler_view);
+        Intent i = getIntent();
+        if(i.hasExtra("sampleObject"))
+        {
+            Subscription to_add = (Subscription) i.getSerializableExtra("sampleObject");
+            if(to_add == null)
+            {
+                Log.e("NULL SUBS", " NULL ");
+            }
+            else
+            {
 
-        subscriptions = new ArrayList<Subscription>();
+                to_add.to_string();
+
+                subscriptions.add(to_add);
+
+                generateRecylerView(subscriptions);
+
+                Log.e("NOT NULL SUBS", "NOT NULL ");
+
+            }
+
+            //subscriptions.add(to_add);
+        }
+
+        else{
+            Log.e("SAFAB SUBS", " NULL ");
+
+        }
 
         addSubscription = findViewById(R.id.add_button);
         addSubscription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /*
 
                 Date created = new Date(2016, 10, 22);
                 Subscription toBeAdded  = new Subscription("NETFLIX",
@@ -67,19 +95,20 @@ public class MainActivity extends AppCompatActivity {
                         10, Subscription.durationIdentifier.DAY,
                         2,4,true );
                 subscriptions.add(toBeAdded);
-                generateRecylerView(subscriptions);
+                //generateRecylerView(subscriptions);
+
+                 */
 
                 Intent to_navigate = new Intent(MainActivity.this, ConfigureSubscription.class);
                 startActivity(to_navigate);
+
+
                 //onButtonShowPopupWindowClick();
             }
         });
 
-
-        recyclerView = findViewById(R.id.main_recycler_view);
-
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        //DialogFragment newFragment = new DatePickerFragment();
+        //newFragment.show(getSupportFragmentManager(), "datePicker");
 
     }
 

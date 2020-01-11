@@ -1,5 +1,6 @@
 package com.example.subscribed;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -54,10 +55,13 @@ public class ConfigureSubscription extends AppCompatActivity {
                 to_add.setDescription(getDescribtion());
                 to_add.setColor(getColor());
                 to_add.setCycle_identified( getCycleIdentifier());
+                to_add.setCycle_time(5); // Just to test actual calculation has to be done in adapter
                 to_add.setSubscriptionCeated(getFirstBillDate());
                 // add a little more to make sure everything is passed.
                 // pass the subscribtion
-                finish();
+                Intent i = new Intent(ConfigureSubscription.this, MainActivity.class);
+                i.putExtra("sampleObject", to_add);
+                startActivity(i);
             }
         });
 
