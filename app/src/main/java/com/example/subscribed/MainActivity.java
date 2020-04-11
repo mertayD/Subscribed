@@ -71,7 +71,6 @@ public class MainActivity extends AppCompatActivity {
                 generateRecylerView(subscriptions);
 
                 Log.e("NOT NULL SUBS", "NOT NULL ");
-
             }
 
             //subscriptions.add(to_add);

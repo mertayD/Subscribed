@@ -54,10 +54,19 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemViewHolder
 
     @Override
     public void onBindViewHolder(ItemViewHolder holder, int position) {
-        holder.item_name_tv.setText(list.get(position).getName());
-        String text = "" + list.get(position).getCycle_time();
+        Subscription current = list.get(position);
+        holder.item_name_tv.setText(current.getName());
+        int cycle_time = current.getCycle_time();
+        String indicate_multiple = "";
+        if( cycle_time != 1)
+        {
+            indicate_multiple = "s";
+        }
+        String text = "Every " + cycle_time + " " + current.getCycle_identified() + indicate_multiple + " DATE " + current.getSubscriptionCeated().getMonth() +  "/" + current.getSubscriptionCeated().getDay() + "/" + current.getSubscriptionCeated().getYear();
         holder.days_remained_tv.setText(text);
         holder.item_image.setImageResource(R.drawable.netflix_icon);
+        //list.get(position).to_string();
+        Log.e("CYCLE IDENTIFIER = ", "" + list.get(position).getCycle_identified());
     }
 
     @Override

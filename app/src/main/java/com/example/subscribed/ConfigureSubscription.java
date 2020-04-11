@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.Layout;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -28,6 +29,7 @@ public class ConfigureSubscription extends AppCompatActivity {
     //Pop Up screen elements
     EditText popup_name_et;
     EditText popup_desc_et;
+    EditText price_et;
     TextView popup_color_et;
     TextView popup_cycle_tv;
     TextView popup_first_bill;
@@ -36,6 +38,7 @@ public class ConfigureSubscription extends AppCompatActivity {
     String[] months_to_write;
     Button done_button;
     Subscription to_add;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +50,8 @@ public class ConfigureSubscription extends AppCompatActivity {
         popup_cycle_tv = findViewById(R.id.enter_cycle_tv);
         popup_first_bill = findViewById(R.id.enter_firstbill_tv);
         done_button = findViewById(R.id.done_button);
+        price_et = findViewById(R.id.price_tag_et);
+        price_et. setInputType(InputType.TYPE_CLASS_NUMBER);
         to_add = new Subscription();
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,8 +59,8 @@ public class ConfigureSubscription extends AppCompatActivity {
                 to_add.setName(getName());
                 to_add.setDescription(getDescribtion());
                 to_add.setColor(getColor());
-                to_add.setCycle_identified( getCycleIdentifier());
-                to_add.setCycle_time(5); // Just to test actual calculation has to be done in adapter
+                to_add.setCycle_identified(getCycleIdentifier());
+                to_add.setCycle_time(getCycleInt()); // Just to test actual calculation has to be done in adapter
                 to_add.setSubscriptionCeated(getFirstBillDate());
                 // add a little more to make sure everything is passed.
                 // pass the subscribtion
@@ -75,6 +80,25 @@ public class ConfigureSubscription extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 onButtonClickShowPopupWindowCycle();
+            }
+        });
+
+        price_et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (price_et.getText().charAt(0) != '$') {
+                    price_et.setText("$"+price_et.getText().toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
             }
         });
 
@@ -105,7 +129,6 @@ public class ConfigureSubscription extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable s) {
-
         }
     }
 

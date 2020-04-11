@@ -7,6 +7,17 @@
     android:layout_height="match_parent"
     android:background="@color/colorDarkBlue">
 
+    <EditText
+        android:id="@+id/price_tag_et"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="$0.00"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/add_icon_ibutton" />
+
     <ImageButton
         android:id="@+id/add_icon_ibutton"
         android:layout_width="50dp"
@@ -20,16 +31,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/price_tag_et"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="$0.00"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.504"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/add_icon_ibutton" />
 
     <LinearLayout
         android:layout_width="match_parent"

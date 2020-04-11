@@ -48,6 +48,16 @@
             android:text="Renews in 999 days"
             />
 
+        <TextView
+            android:id="@+id/subscription_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="11dp"
+            android:layout_centerVertical="true"
+            android:text="$0.00" />
+
     </RelativeLayout>
 
 </LinearLayout>

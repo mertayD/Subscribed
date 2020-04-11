@@ -119,12 +119,14 @@ public class Subscription implements Serializable {
                 this.cycle_identified = durationIdentifier.DAY;
                 break;
             case 1:
-                this.cycle_identified = durationIdentifier.MONTH;
+                this.cycle_identified = durationIdentifier.WEEK;
                 break;
             case 2:
+                this.cycle_identified = durationIdentifier.MONTH;
+                break;
+            case 3:
                 this.cycle_identified = durationIdentifier.YEAR;
                 break;
-
         }
     }
 
@@ -153,6 +155,6 @@ public class Subscription implements Serializable {
     }
 
     public void to_string(){
-        Log.e("SUBSCRIPTION", "NAME = "+ name);
+        Log.e("SUBSCRIPTION", "NAME = "+ name +  "\n Description = " + description + "\n " + "Duration = " + getDuration_time());
     }
 }
