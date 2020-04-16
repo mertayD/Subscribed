@@ -62,6 +62,7 @@ public class ConfigureSubscription extends AppCompatActivity {
                 to_add.setCycle_identified(getCycleIdentifier());
                 to_add.setCycle_time(getCycleInt()); // Just to test actual calculation has to be done in adapter
                 to_add.setSubscriptionCeated(getFirstBillDate());
+                to_add.setPrice(get_price());
                 // add a little more to make sure everything is passed.
                 // pass the subscribtion
                 Intent i = new Intent(ConfigureSubscription.this, MainActivity.class);
@@ -105,6 +106,33 @@ public class ConfigureSubscription extends AppCompatActivity {
         day_identifier_values = new String[] {"Day(s)", "Week(s)", "Month(s)", "Year(s)"};
         months = new String[] {"Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         months_to_write = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
+
+        Intent i = getIntent();
+        if(i.hasExtra("currentSubscription"))
+        {
+            Subscription current = (Subscription) i.getSerializableExtra("currentSubscription");
+            if(current == null)
+            {
+                Log.e("NULL SUBS", " NULL ");
+            }
+            else
+            {
+                //WORK ON THIS ONE, GET CYLE IDENTIFIED SHOULD BE GETTING FROM DAY_IDENTIFIER_VALUES
+                current.to_string();
+                popup_name_et.setText(current.getName());
+                popup_desc_et.setText(current.getDescription());
+                popup_cycle_tv.setText("EVERY" + current.getCycle_time() + current.getCycle_identified() );
+
+                Log.e("NOT NULL SUBS", "NOT NULL ");
+            }
+
+            //subscriptions.add(to_add);
+        }
+
+        else{
+            Log.e("SAFAB SUBS", " NULL ");
+
+        }
     }
 
     public class MyTextWatcher implements TextWatcher {
@@ -529,6 +557,16 @@ public class ConfigureSubscription extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    double get_price()
+    {
+        String price_str = price_et.getText().toString();
+        int index_dot = price_str.indexOf(".");
+        double price = Integer.parseInt(price_str.substring(1,index_dot));
+        double remainder = Integer.parseInt(price_str.substring(index_dot+1));
+        price += remainder/100;
+        return price;
     }
 
 

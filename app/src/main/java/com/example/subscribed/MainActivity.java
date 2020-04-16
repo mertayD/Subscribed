@@ -111,9 +111,17 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    void generateRecylerView(List<Subscription> list)
+    void generateRecylerView(final List<Subscription> list)
     {
-        itemAdapter = new ItemAdapter(this,list);
+        itemAdapter = new ItemAdapter(this, list, new ItemAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(View v, int position) {
+                Intent configure = new Intent(MainActivity.this, ConfigureSubscription.class);
+                configure.putExtra("currentSubscription", subscriptions.get(position));
+                Log.e("HEREEEEEE", "HERE");
+                startActivity(configure);
+            }
+        });
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(MainActivity.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(itemAdapter);

@@ -22,6 +22,7 @@ public class Subscription implements Serializable {
     private int image_identifier; //Which Icon is used
     private int color;
     private boolean notify_user;
+    private double price; //Subs Price
 
     public Subscription(){
         this.name = "";
@@ -33,6 +34,7 @@ public class Subscription implements Serializable {
         this.cycle_identified = durationIdentifier.DAY;
         this.image_identifier = 0;
         this.color = 0;
+        this.price = 0;
         this.notify_user = false;
 
     }
@@ -45,7 +47,8 @@ public class Subscription implements Serializable {
                         durationIdentifier cycle_identified,
                         int image_identifier,
                         int color,
-                        boolean notify_user) {
+                        boolean notify_user,
+                        double price) {
         this.name = name;
         this.description = description;
         this.subscriptionCeated = subscriptionCeated;
@@ -56,8 +59,15 @@ public class Subscription implements Serializable {
         this.image_identifier = image_identifier;
         this.color = color;
         this.notify_user = notify_user;
+        this.price = price;
     }
 
+    public double getPrice(){
+        return price;
+    }
+    public void setPrice(double price){
+        this.price = price;
+    }
     public String getName() {
         return name;
     }
