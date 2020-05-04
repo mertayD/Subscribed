@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
     public static int day_input;
     public static int month_input;
     public static int year_input;
-
+    public static int index_sent_to_edit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,26 +59,41 @@ public class MainActivity extends AppCompatActivity {
             Subscription to_add = (Subscription) i.getSerializableExtra("sampleObject");
             if(to_add == null)
             {
-                Log.e("NULL SUBS", " NULL ");
+                Log.e("NULL NEW SUBS", " NULL ");
             }
             else
             {
-
-                to_add.to_string();
-
                 subscriptions.add(to_add);
 
                 generateRecylerView(subscriptions);
 
-                Log.e("NOT NULL SUBS", "NOT NULL ");
+                Log.e("NOT NULL NEW SUBS", "NOT NULL ");
             }
 
             //subscriptions.add(to_add);
         }
 
-        else{
-            Log.e("SAFAB SUBS", " NULL ");
+        else if(i.hasExtra("editedObject")){
+            Subscription edited_object = (Subscription) i.getSerializableExtra("editedObject");
+            if(edited_object == null)
+            {
+                Log.e("Err Occured After Edit", " Keeping Old Version ");
+            }
+            else
+            {
+                Log.e("INDEX AFTER", "" + index_sent_to_edit);
 
+                subscriptions.remove(index_sent_to_edit);
+
+                subscriptions.add(index_sent_to_edit, edited_object);
+
+                generateRecylerView(subscriptions);
+
+                Log.v("Returned Valid", "NOT NULL");
+            }
+        }
+        else{
+            Log.e("SUBS Returned", "NULL");
         }
 
         addSubscription = findViewById(R.id.add_button);
@@ -118,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v, int position) {
                 Intent configure = new Intent(MainActivity.this, ConfigureSubscription.class);
                 configure.putExtra("currentSubscription", subscriptions.get(position));
+                index_sent_to_edit = position;
+                Log.e("INDEX BEFORE", "" + index_sent_to_edit);
                 Log.e("HEREEEEEE", "HERE");
                 startActivity(configure);
             }

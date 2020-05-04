@@ -38,7 +38,7 @@ public class ConfigureSubscription extends AppCompatActivity {
     String[] months_to_write;
     Button done_button;
     Subscription to_add;
-
+    Boolean is_edit = false; //Paramter to check if the subs is in edit mode
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,7 @@ public class ConfigureSubscription extends AppCompatActivity {
         popup_first_bill = findViewById(R.id.enter_firstbill_tv);
         done_button = findViewById(R.id.done_button);
         price_et = findViewById(R.id.price_tag_et);
-        price_et. setInputType(InputType.TYPE_CLASS_NUMBER);
+        price_et. setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
         to_add = new Subscription();
         done_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,13 @@ public class ConfigureSubscription extends AppCompatActivity {
                 // add a little more to make sure everything is passed.
                 // pass the subscribtion
                 Intent i = new Intent(ConfigureSubscription.this, MainActivity.class);
-                i.putExtra("sampleObject", to_add);
+                if(!is_edit)
+                {
+                    i.putExtra("sampleObject", to_add);
+                }
+                else{
+                    i.putExtra("editedObject", to_add);
+                }
                 startActivity(i);
             }
         });
@@ -84,17 +90,75 @@ public class ConfigureSubscription extends AppCompatActivity {
             }
         });
 
+        price_et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                {
+                    String text = price_et.getText().toString();
+                    if(text.length() == 1) {
+                        text = "$0.00";
+                    }
+                    else if(!text.contains("."))
+                    {
+                        text += ".00";
+                    }
+                    price_et.setText(text);
+                    price_et.setTextColor(getResources().getColor(R.color.customGray));
+                }
+                else{
+                    String text = price_et.getText().toString();
+
+                    if(text.equals("$0.00"))
+                    {
+                        text = "$";
+                    }
+                    price_et.setText(text);
+
+                    price_et.setTextColor(getResources().getColor(R.color.colorWhite));
+                }
+            }
+        });
+
         price_et.addTextChangedListener(new TextWatcher() {
+            String previous_text = "";
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+                previous_text = s.toString();
+                Log.e("BEFORE", s.toString() + " START " + start + " COUNT " + count + " AFTER" + after);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (price_et.getText().charAt(0) != '$') {
-                    price_et.setText("$"+price_et.getText().toString());
+
+                Log.e("AFTER", s.toString() + " START " + start + " COUNT " + count + "BEFORE " + before);
+                String text = s.toString();
+
+                if(start == 0 && ((count == 0 && before == 1) || count == 1 && before == 0))
+                {
+                    price_et.setText(previous_text);
                 }
+                int first_occurence = text.indexOf(".");
+                int last_occurence = text.lastIndexOf(".");
+                if(first_occurence != last_occurence)
+                {
+                    price_et.setText(previous_text);
+                }
+
+
+                /*
+
+                if(!(text.length() > 0))
+                {
+                    //if for some reason text has length 0
+                    price_et.setText("$");
+                }
+
+                else if (price_et.getText().charAt(0) != '$') {
+                    price_et.setText("$"+text);
+                }
+                 */
             }
 
             @Override
@@ -107,6 +171,7 @@ public class ConfigureSubscription extends AppCompatActivity {
         months = new String[] {"Januray", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         months_to_write = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sept", "Oct", "Nov", "Dec"};
 
+        //WHEN USER GETS HEAR BY CLICKING SUBSCRIPTION
         Intent i = getIntent();
         if(i.hasExtra("currentSubscription"))
         {
@@ -121,18 +186,21 @@ public class ConfigureSubscription extends AppCompatActivity {
                 current.to_string();
                 popup_name_et.setText(current.getName());
                 popup_desc_et.setText(current.getDescription());
-                popup_cycle_tv.setText("EVERY" + current.getCycle_time() + current.getCycle_identified() );
-
+                popup_cycle_tv.setText("Every " + current.getCycle_time() + " " + day_identifier_values[current.getCycle_identified().ordinal()] );
+                popup_first_bill.setText("" + current.getSubscriptionCeated().getDate() + " " +  months_to_write[current.getSubscriptionCeated().getMonth()] + " " + (current.getSubscriptionCeated().getYear()) );
+                price_et.setText("$" + current.getPrice());
+                is_edit = true;
                 Log.e("NOT NULL SUBS", "NOT NULL ");
             }
-
             //subscriptions.add(to_add);
         }
 
         else{
             Log.e("SAFAB SUBS", " NULL ");
-
         }
+
+        price_et.clearFocus();
+
     }
 
     public class MyTextWatcher implements TextWatcher {
@@ -561,11 +629,19 @@ public class ConfigureSubscription extends AppCompatActivity {
 
     double get_price()
     {
+        double price =0;
+        double remainder=0;
         String price_str = price_et.getText().toString();
         int index_dot = price_str.indexOf(".");
-        double price = Integer.parseInt(price_str.substring(1,index_dot));
-        double remainder = Integer.parseInt(price_str.substring(index_dot+1));
-        price += remainder/100;
+        if(index_dot >=0 )
+        {
+            price = Integer.parseInt(price_str.substring(1,index_dot));
+            remainder = Integer.parseInt(price_str.substring(index_dot+1));
+            price += remainder/100;
+        }
+        else{
+            price = Integer.parseInt(price_str.substring(1));
+        }
         return price;
     }
 

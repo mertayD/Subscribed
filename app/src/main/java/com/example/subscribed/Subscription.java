@@ -10,7 +10,7 @@ import java.io.Serializable;
 public class Subscription implements Serializable {
     private String name;
     private String description;
-    private Date subscriptionCeated;
+    private Date subscriptionCeated; //FirstBill not when subsription created
     private int duration_time; // int range from 1 - 40;
 
     enum durationIdentifier{
